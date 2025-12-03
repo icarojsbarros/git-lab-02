@@ -1,14 +1,12 @@
-# 1. Imagem base: Começamos com um Linux super leve
-FROM alpine:latest
+# MUDANÇA AQUI: Trocamos 'openjdk' por 'eclipse-temurin'
+FROM eclipse-temurin:17-jdk-alpine
 
-# 2. Diretório de trabalho: Onde as coisas acontecem dentro do container
 WORKDIR /app
 
-# 3. Copiar arquivos: Pega o app.sh do seu Windows e joga dentro da imagem
-COPY app.sh .
+COPY Main.java .
 
-# 4. Permissão: Garante que o Linux possa executar o script
-RUN chmod +x app.sh
+RUN javac Main.java
 
-# 5. Comando inicial: O que roda quando o container acorda?
-CMD ["sh", "./app.sh"]
+ENV DEV_NAME="Icaro Barros"
+
+CMD ["java", "Main"]
