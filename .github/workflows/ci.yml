@@ -1,18 +1,38 @@
-name: My Firts CI
+name: Docker CI/CD
 
-# Gatilho: Quando isso vai rodar?
-on: [push]
+# Roda quando damos push na main
+on:
+  push:
+    branches: [ "main" ]
 
-# O que vai rodar?
+# Variáveis de ambiente
+env:
+  REGISTRY: ghcr.io
+  # O nome da imagem será: ghcr.io/seu-usuario/git-lab-02
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
-  teste-simples:
-    runs-on: ubuntu-latest  # A máquina que o GitHub vai emprestar
+  build-and-push:
+    runs-on: ubuntu-latest
+    # Permissões necessárias para gravar no registro de pacotes do GitHub
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - name: Baixando o código (Checkout)
+      - name: Baixar o código (Checkout)
         uses: actions/checkout@v3
 
-      - name: Executando um script
-        run: |
-          echo "Iniciando os testes..."
-          ls -la
-          echo "Se você está lendo isso no log, o pipeline funcionou!"
+      - name: Login no GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build e Push da Imagem Docker
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
