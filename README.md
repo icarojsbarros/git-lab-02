@@ -3,8 +3,11 @@
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![Docker](https://img.shields.io/badge/Docker-Build-blue)
 ![CI/CD](https://img.shields.io/badge/GitHub-Actions-green)
+![Terraform](https://img.shields.io/badge/Terraform-IaC-purple)
 
 Este projeto é uma demonstração prática de **Engenharia de Software e DevOps**, integrando uma aplicação Java com containerização Docker e pipeline de CI/CD automatizado via GitHub Actions.
+
+---
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -12,6 +15,9 @@ Este projeto é uma demonstração prática de **Engenharia de Software e DevOps
 - **Docker**: Containerização com imagem otimizada (`eclipse-temurin:17-jdk-alpine`).
 - **GitHub Actions**: Automação de Build e Push para o registro de containers.
 - **GitHub Container Registry (GHCR)**: Armazenamento da imagem Docker pública.
+- **Terraform**: Infraestrutura como Código (IaC) para provisionamento na AWS.
+
+---
 
 ## 📦 Como Rodar (Sem instalar Java)
 
@@ -22,13 +28,3 @@ Execute o comando abaixo no seu terminal para baixar a versão mais recente dire
 
 ```bash
 docker run --rm ghcr.io/icarojsbarros/java-docker-pipeline:latest
-
-## ☁️ Infraestrutura como Código (Terraform)
-
-O projeto inclui código IaC para provisionamento automático na AWS.
-Os arquivos estão localizados na pasta `/terraform`.
-
-### Recursos definidos (`main.tf`):
-- **Provider**: AWS (`us-east-1`).
-- **Recurso**: Instância EC2 (t2.micro/Ubuntu).
-- **Provisionamento**: Script `user_data` que instala Docker e roda o container da aplicação automaticamente ao iniciar a máquina.
